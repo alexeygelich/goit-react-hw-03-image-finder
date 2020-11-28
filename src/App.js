@@ -1,33 +1,55 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Searchbar from "./components/Searchbar";
 import ImageGallery from "./components/ImageGallery";
-import Button from '../src/shared/Button'
+import Button from "./shared/Button";
+import Modal from "./components/Modal";
+import styles from "./App.module.css";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default class App extends Component {
   state = {
     hits: [],
     query: "",
     page: 1,
-    largeImageURL:'',
+    total: 0,
+    largeImageURL: "",
+    loader: false,
+    scroll: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
       this.fetchQuery();
+      this.setState({
+        scroll: document.documentElement.scrollHeight - 145,
+      });
     }
   }
 
   fetchQuery = () => {
+    this.setState({
+      loader: true,
+    });
     fetch(
       `https://pixabay.com/api/?q=${this.state.query}&page=${this.state.page}&key=18941462-97e9f218cf6db5cf76e5888b1&image_type=photo&orientation=horizontal&per_page=12`
     )
       .then((data) => data.json())
-      .then(({ hits }) =>
+      .then((data) => {
         this.setState((prevState) => ({
-          hits: [...prevState.hits, ...hits],
-        }))
-      );
+          hits: [...prevState.hits, ...data.hits],
+          total: data.total,
+        }));
+        this.setState({
+          loader: false,
+        });
+        if (this.state.page > 1) {
+          window.scrollTo({
+            top: this.state.scroll,
+            behavior: "smooth",
+          });
+        }
+      });
   };
 
   onSubmit = (searchQuery) => {
@@ -44,23 +66,33 @@ export default class App extends Component {
     }));
   };
 
-  handleClickImg=(largeImageURL)=>{
+  handleClickImg = (largeImageURL) => {
     this.setState({
-      largeImageURL
-    })
-  }
+      largeImageURL,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      largeImageURL: "",
+    });
+  };
 
   render() {
-    const { hits } = this.state;
+    const { hits, total, page, largeImageURL, loader } = this.state;
+    const loadMore = loader ? (
+      <span className={styles.loader}>
+        <Loader type="Puff" color="#3f51b5" height={100} width={100} />
+      </span>
+    ) : (
+      total > page * 12 && <Button handleClick={this.handleClick}>Load more</Button>
+    );
     return (
-      <div>
+      <div className={styles.App}>
         <Searchbar onSubmit={this.onSubmit} />
-        {this.state.hits.length > 0 && <ImageGallery hits={hits} handleClickImg={this.handleClickImg}/>}
-        {this.state.hits.length > 0 && (
-          <Button handleClick={this.handleClick}>
-            Load more
-          </Button>
-        )}
+        {hits.length > 0 && <ImageGallery hits={hits} handleClickImg={this.handleClickImg} />}
+        {loadMore}
+        {largeImageURL && <Modal largeImageURL={largeImageURL} closeModal={this.closeModal} />}
       </div>
     );
   }

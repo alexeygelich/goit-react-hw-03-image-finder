@@ -13,11 +13,9 @@ const ImageGalleryItem = ({ largeImageURL, previewURL, handleClickImg }) => {
 };
 
 ImageGalleryItem.propTypes = {
-  // bla: PropTypes.string,
-};
-
-ImageGalleryItem.defaultProps = {
-  // bla: 'test',
+  largeImageURL: PropTypes.string.isRequired,
+  previewURL: PropTypes.string.isRequired,
+  handleClickImg: PropTypes.func.isRequired,
 };
 
 export default ImageGalleryItem;

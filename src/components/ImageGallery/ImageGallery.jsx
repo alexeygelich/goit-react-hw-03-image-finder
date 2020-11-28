@@ -9,7 +9,7 @@ const ImageGallery = ({ hits, handleClickImg }) => {
     <ul className={ImageGallery}>
       {hits.map(({ id, largeImageURL, previewURL }) => (
         <ImageGalleryItem
-          key={id}
+          key={id.toString()}
           largeImageURL={largeImageURL}
           previewURL={previewURL}
           handleClickImg={handleClickImg}
@@ -20,7 +20,8 @@ const ImageGallery = ({ hits, handleClickImg }) => {
 };
 
 ImageGallery.propTypes = {
-  // bla: PropTypes.string,
+  hits: PropTypes.array.isRequired,
+  handleClickImg: PropTypes.func.isRequired,
 };
 
 export default ImageGallery;

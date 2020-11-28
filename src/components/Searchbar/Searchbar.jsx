@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import styles from "./Searchbar.module.css";
 
 export default class Searchbar extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   state = {
     value: "",
   };
@@ -25,7 +29,7 @@ export default class Searchbar extends Component {
       <header className={Searchbar}>
         <form className={SearchForm} onSubmit={this.handleSubmit}>
           <button type="submit" className={SearchFormButton}>
-            <span className={SearchFormButtonLabel}>Search</span>
+            <span className={SearchFormButtonLabel}></span>
           </button>
 
           <input
