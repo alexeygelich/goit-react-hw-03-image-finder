@@ -16,6 +16,7 @@ export default class App extends Component {
     largeImageURL: "",
     loader: false,
     scroll: null,
+    infiniteScroll: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,7 +26,27 @@ export default class App extends Component {
         scroll: document.documentElement.scrollHeight - 145,
       });
     }
+    if (this.state.infiniteScroll) {
+      window.addEventListener("scroll", this.onInfinitScroll);
+    }
+    if (!this.state.infiniteScroll) {
+      window.removeEventListener("scroll", this.onInfinitScroll);
+    }
   }
+
+  onInfinitScroll = () => {
+    if (
+      document.documentElement.offsetHeight -
+        document.documentElement.scrollTop -
+        document.documentElement.clientHeight <
+      100
+    ) {
+      this.setState((prevState) => ({
+        page: prevState.page + 1,
+      }));
+      window.removeEventListener("scroll", this.onInfinitScroll);
+    }
+  };
 
   fetchQuery = () => {
     this.setState({
@@ -41,7 +62,7 @@ export default class App extends Component {
           total: data.total,
           loader: false,
         }));
-        if (this.state.page > 1) {
+        if (this.state.page > 1 && !this.state.infiniteScroll) {
           window.scrollTo({
             top: this.state.scroll,
             behavior: "smooth",
@@ -76,18 +97,22 @@ export default class App extends Component {
     });
   };
 
+  handleInfinitScrollToggle = () => {
+    this.setState((prevState) => ({ infiniteScroll: !prevState.infiniteScroll }));
+  };
+
   render() {
-    const { hits, total, page, largeImageURL, loader } = this.state;
+    const { hits, total, page, largeImageURL, loader, infiniteScroll } = this.state;
     const loadMore = loader ? (
       <span className={styles.loader}>
         <Loader type="Puff" color="#3f51b5" height={100} width={100} />
       </span>
     ) : (
-      total > page * 12 && <Button handleClick={this.handleClick}>Load more</Button>
+      total > page * 12 && !infiniteScroll && <Button handleClick={this.handleClick}>Load more</Button>
     );
     return (
       <div className={styles.App}>
-        <Searchbar onSubmit={this.onSubmit} />
+        <Searchbar onSubmit={this.onSubmit} handleInfinitScrollToggle={this.handleInfinitScrollToggle} />
         {hits.length > 0 && <ImageGallery hits={hits} handleClickImg={this.handleClickImg} />}
         {loadMore}
         {largeImageURL && <Modal largeImageURL={largeImageURL} closeModal={this.closeModal} />}

@@ -7,11 +7,11 @@ const ImageGallery = ({ hits, handleClickImg }) => {
   const { ImageGallery } = styles;
   return (
     <ul className={ImageGallery}>
-      {hits.map(({ id, largeImageURL, previewURL }) => (
+      {hits.map((hit, id) => (
         <ImageGalleryItem
           key={id.toString()}
-          largeImageURL={largeImageURL}
-          previewURL={previewURL}
+          largeImageURL={hit.largeImageURL}
+          previewURL={hit.previewURL}
           handleClickImg={handleClickImg}
         />
       ))}
