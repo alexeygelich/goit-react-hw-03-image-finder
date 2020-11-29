@@ -39,10 +39,8 @@ export default class App extends Component {
         this.setState((prevState) => ({
           hits: [...prevState.hits, ...data.hits],
           total: data.total,
-        }));
-        this.setState({
           loader: false,
-        });
+        }));
         if (this.state.page > 1) {
           window.scrollTo({
             top: this.state.scroll,
