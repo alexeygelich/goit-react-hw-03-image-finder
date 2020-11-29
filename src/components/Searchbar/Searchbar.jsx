@@ -38,7 +38,6 @@ export default class Searchbar extends Component {
       SearchFormButtonLabel,
       SearchFormInput,
       themeSwitch,
-      themeSwitchIcon,
       themeSwitchControl,
       themeSwitchToggle,
       themeSwitchTrack,
@@ -65,9 +64,6 @@ export default class Searchbar extends Component {
           />
         </form>
         <div className={themeSwitch}>
-          <svg className={themeSwitchIcon} role="img" aria-label="Иконка солнца">
-            <use href="./images/sprite.svg#sun"></use>
-          </svg>
           <div className={themeSwitchControl}>
             <input
               className={themeSwitchToggle}
@@ -80,9 +76,6 @@ export default class Searchbar extends Component {
             <label aria-hidden="true" className={themeSwitchTrack} htmlFor="theme-switch-toggle"></label>
             <div aria-hidden="true" className={themeSwitchMarker}></div>
           </div>
-          <svg className={themeSwitchIcon} aria-label="Иконка луны">
-            <use href="./images/sprite.svg#moon"></use>
-          </svg>
           <span className={isActiveScroll ? green : red}>Infinit Scroll</span>
         </div>
       </header>

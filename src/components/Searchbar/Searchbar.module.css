@@ -112,6 +112,7 @@ img {
 .themeSwitch {
   display: flex;
   align-items: center;
+  margin-left: 50px;
 }
 
 .themeSwitchIcon {
@@ -127,6 +128,7 @@ img {
   align-items: center;
   flex-shrink: 0;
   position: relative;
+  margin-right: 20px;
   width: 64px;
   height: 32px;
   border-radius: 50em;
