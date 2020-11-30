@@ -20,11 +20,11 @@ export default class Modal extends Component {
   };
 
   render() {
-    const { largeImageURL } = this.props;
-    const { Overlay, Modal } = styles;
+    const { largeImageURL,isModal } = this.props;
+    const { Overlay, Modal, isHidden, OverlayHidden } = styles;
     return (
-      <div className={Overlay}>
-        <div className={Modal}>
+      <div className={isModal ? Overlay : OverlayHidden}>
+        <div className={isModal ? Modal : isHidden}>
           <img src={largeImageURL} alt="" />
         </div>
       </div>

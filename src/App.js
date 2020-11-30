@@ -14,6 +14,7 @@ export default class App extends Component {
     page: 1,
     total: 0,
     largeImageURL: "",
+    isModal: false,
     loader: false,
     scroll: null,
     infiniteScroll: false,
@@ -88,13 +89,19 @@ export default class App extends Component {
   handleClickImg = (largeImageURL) => {
     this.setState({
       largeImageURL,
+      isModal: true,
     });
   };
 
   closeModal = () => {
     this.setState({
-      largeImageURL: "",
+      isModal: false,
     });
+    setTimeout(() => {
+      this.setState({
+        largeImageURL: "",
+      });
+    }, 500);
   };
 
   handleInfinitScrollToggle = () => {
@@ -102,7 +109,7 @@ export default class App extends Component {
   };
 
   render() {
-    const { hits, total, page, largeImageURL, loader, infiniteScroll } = this.state;
+    const { hits, total, page, largeImageURL, loader, infiniteScroll, isModal } = this.state;
     const loadMore = loader ? (
       <span className={styles.loader}>
         <Loader type="Puff" color="#3f51b5" height={100} width={100} />
@@ -115,7 +122,8 @@ export default class App extends Component {
         <Searchbar onSubmit={this.onSubmit} handleInfinitScrollToggle={this.handleInfinitScrollToggle} />
         {hits.length > 0 && <ImageGallery hits={hits} handleClickImg={this.handleClickImg} />}
         {loadMore}
-        {largeImageURL && <Modal largeImageURL={largeImageURL} closeModal={this.closeModal} />}
+        {/* {largeImageURL && <Modal largeImageURL={largeImageURL} closeModal={this.closeModal} />} */}
+        <Modal largeImageURL={largeImageURL} closeModal={this.closeModal} isModal={isModal} />
       </div>
     );
   }

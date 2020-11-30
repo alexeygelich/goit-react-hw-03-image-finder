@@ -2,8 +2,9 @@
  * Стили компонента Modal
  */
 
- .Overlay {
+.Overlay {
   position: fixed;
+  pointer-events: all;
   top: 0;
   left: 0;
   width: 100vw;
@@ -13,9 +14,38 @@
   align-items: center;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1200;
+  opacity: 1;
+}
+
+.OverlayHidden {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1200;
+  opacity: 0;
+  transition: 0.5s;
 }
 
 .Modal {
   max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
+  transform: scale(1);
+  opacity: 1;
+  transition: 0.5s;
+  transition-delay: 0.3s;
+}
+
+.isHidden {
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 24px);
+  transform: scale(0.3);
+  opacity: 0;
+  transition: 0.5s;
 }
