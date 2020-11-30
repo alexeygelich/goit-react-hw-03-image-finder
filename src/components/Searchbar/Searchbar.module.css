@@ -190,9 +190,11 @@ img {
 .green {
   font-weight: 700;
   color: #16d416;
+  transition: 0.7s;
 }
 
 .red {
   font-weight: 700;
   color: red;
+  transition: 0.7s;
 }

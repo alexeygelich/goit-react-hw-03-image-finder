@@ -16,16 +16,12 @@ export default class App extends Component {
     largeImageURL: "",
     isModal: false,
     loader: false,
-    scroll: null,
     infiniteScroll: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query || prevState.page !== this.state.page) {
       this.fetchQuery();
-      this.setState({
-        scroll: document.documentElement.scrollHeight - 145,
-      });
     }
     if (this.state.infiniteScroll) {
       window.addEventListener("scroll", this.onInfinitScroll);
@@ -65,7 +61,7 @@ export default class App extends Component {
         }));
         if (this.state.page > 1 && !this.state.infiniteScroll) {
           window.scrollTo({
-            top: this.state.scroll,
+            top: document.documentElement.scrollTop + document.documentElement.clientHeight - 140,
             behavior: "smooth",
           });
         }
