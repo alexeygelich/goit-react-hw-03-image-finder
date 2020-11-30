@@ -122,7 +122,6 @@ export default class App extends Component {
         <Searchbar onSubmit={this.onSubmit} handleInfinitScrollToggle={this.handleInfinitScrollToggle} />
         {hits.length > 0 && <ImageGallery hits={hits} handleClickImg={this.handleClickImg} />}
         {loadMore}
-        {/* {largeImageURL && <Modal largeImageURL={largeImageURL} closeModal={this.closeModal} />} */}
         <Modal largeImageURL={largeImageURL} closeModal={this.closeModal} isModal={isModal} />
       </div>
     );
