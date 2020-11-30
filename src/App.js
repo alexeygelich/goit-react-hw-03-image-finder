@@ -110,13 +110,14 @@ export default class App extends Component {
 
   render() {
     const { hits, total, page, largeImageURL, loader, infiniteScroll, isModal } = this.state;
-    const loadMore = loader ? (
-      <span className={styles.loader}>
-        <Loader type="Puff" color="#3f51b5" height={100} width={100} />
-      </span>
-    ) : (
-      total > page * 12 && !infiniteScroll && <Button handleClick={this.handleClick}>Load more</Button>
-    );
+    const loadMore =
+      total > page * 12 && loader ? (
+        <span className={styles.loader}>
+          <Loader type="Puff" color="#3f51b5" height={100} width={100} />
+        </span>
+      ) : (
+        total > page * 12 && !infiniteScroll && <Button handleClick={this.handleClick}>Load more</Button>
+      );
     return (
       <div className={styles.App}>
         <Searchbar onSubmit={this.onSubmit} handleInfinitScrollToggle={this.handleInfinitScrollToggle} />
